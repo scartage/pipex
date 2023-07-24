@@ -1,12 +1,19 @@
-
+#include <sys/types.h>
+#include <sys/wait.h>
 #include "../inc/pipex.h"
 #include <unistd.h>
 #include <stdio.h>
+#include <string.h>
+#include <errno.h>
+
+
+#define READ_END 0
+#define WRITE_END 1
 
 int main(int ac, char **av)
 {
-    int end[2];
-    pid_t parent;
+    int fd1[2], fd2[2];
+    int status, pid;
 
     if (ac < 2)
     {
@@ -14,7 +21,7 @@ int main(int ac, char **av)
         ft_printf("uso: ./pipex infile cmd1 cmd2 outfile\n");
         return (-1);
     }
-    //pipe(end);
+    pipe(end);
     parent = fork();
     if (parent < 0){
         perror("Fork: ");
