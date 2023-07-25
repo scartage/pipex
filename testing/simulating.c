@@ -19,9 +19,10 @@ int main(int ac, char **av)
 
     if (pid1 == 0){
         //child proccess 1 (ping);
-        close(fd[0]);
         dup2(fd[1], STDOUT_FILENO);
         close(fd[1]);
+        close(fd[0]);
+        printf("hola test\n");
         execlp("ping", "ping", "-c", "5", "google.com", NULL);
     }
 
@@ -31,10 +32,11 @@ int main(int ac, char **av)
     }
     if (pid2 == 0){
         //child proccess 2 (grep)
-        close(fd[1]);
         dup2(fd[0], STDIN_FILENO);
         close(fd[0]);
-        execlp("grep", "grep", "rtt", NULL);
+        close(fd[1]);
+        printf("otro hijo\n");
+        execlp("grep", "grep", "ttl", NULL);
     }
     close(fd[0]);
     close(fd[1]);

@@ -5,7 +5,7 @@ RM			= rm -rf
 
 INCLUDES	= inc/pipex.h
 
-SRCS		= main.c
+SRCS		= main.c file_handler.c command.c arguments.c args_state.c
 
 SRC_DIRS	= src
 

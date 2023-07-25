@@ -1,0 +1,8 @@
+  1. Primero se crea un pipe mediante pipe(fd). Esto da dos descriptores de archivo: fd[0] para lectura y fd[1] para escritura.
+2. Luego se crea un nuevo proceso con fork(). Esto duplica el proceso actual y devuelve el PID (ID del proceso) del nuevo proceso. El valor 0 se devuelve en el proceso hijo y el PID del hijo se devuelve en el proceso padre.
+3. El proceso hijo cierra el extremo de lectura del pipe con close(fd[0]). No necesita este extremo del pipe.
+4. El proceso hijo luego redirige su salida estándar (STDOUT) al extremo de escritura del pipe usando dup2(fd[1], STDOUT_FILENO). Esto significa que cualquier cosa que el proceso hijo escriba en su salida estándar (por ejemplo, mediante printf o write) ahora se enviará al pipe.
+5. El proceso hijo ejecuta execve para reemplazar su imagen con el comando /bin/ls con la opción -l. El comando se ejecuta y su salida se envía al pipe.
+6. Mientras tanto, el proceso padre cierra el extremo de escritura del pipe con close(fd[1]). Luego lee la salida del comando ls -l desde el extremo de lectura del pipe y la escribe en su propia salida estándar.
+7. Finalmente, el proceso padre espera a que el proceso hijo termine con wait(NULL).
+Este programa es una forma muy básica de cómo una shell podría ejecutar un comando y mostrar su salida, aunque las shells reales son mucho más complejas y manejan muchos más casos y comandos.
