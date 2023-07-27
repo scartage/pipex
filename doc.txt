@@ -6,3 +6,26 @@
 6. Mientras tanto, el proceso padre cierra el extremo de escritura del pipe con close(fd[1]). Luego lee la salida del comando ls -l desde el extremo de lectura del pipe y la escribe en su propia salida estándar.
 7. Finalmente, el proceso padre espera a que el proceso hijo termine con wait(NULL).
 Este programa es una forma muy básica de cómo una shell podría ejecutar un comando y mostrar su salida, aunque las shells reales son mucho más complejas y manejan muchos más casos y comandos.
+
+
+The general idea: we read from infile, execute cmd1 with infile as input, send the output to cmd2, which will write to outfile.
+pipe() sends the output of the first execve() as input to the second execve(); fork() runs two processes (i.e. two commands) in one single program; dup2() swaps our files with stdin and stdout.
+Visually,
+
+// each cmd needs a stdin (input) and returns an output (to stdout)
+   
+    infile                                             outfile
+as stdin for cmd1                                 as stdout for cmd2            
+       |                        PIPE                        ↑
+       |           |---------------------------|            |
+       ↓             |                       |              |
+      cmd1   -->    end[1]       ↔       end[0]   -->     cmd2           
+                     |                       |
+            cmd1   |---------------------------|  end[0]
+           output                             reads end[1]
+         is written                          and sends cmd1
+          to end[1]                          output to cmd2
+       (end[1] becomes                      (end[0] becomes 
+        cmd1 stdout)                           cmd2 stdin)
+
+

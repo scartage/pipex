@@ -33,7 +33,7 @@ make_dir:
 
 -include $(DEPS)
 $(NAME): $(LIBFT) $(OBJS)
-		$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) -o $(NAME)
+		$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
 		@echo "$(green)$(NAME) compiled$(nc)"
 
 clean:

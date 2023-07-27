@@ -1,6 +1,8 @@
 #ifndef ARGS_STATE_MACHINE_H
 # define ARGS_STATE_MACHINE_H
 
+#include "../libft/libft.h"
+
 typedef enum e_state
 {
 	in_space,

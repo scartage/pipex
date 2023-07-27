@@ -4,8 +4,10 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <fcntl.h>
+
 #include "file_handler.h"
 #include "command.h"
+#include "../inc/pipex.h"
 
 void exec_first_command(char **av, int fd[2], char **envp)
 {
@@ -33,7 +35,7 @@ int main(int ac, char **av, char **envp)
 
     if (ac < 2)
     {
-        printf("numero de argumentos incorrecto\n");
+        ft_printf("numero de argumentos incorrecto\n");
         printf("uso: ./pipex infile cmd1 cmd2 outfile\n");
         return (-1);
     }
