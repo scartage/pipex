@@ -16,7 +16,7 @@ void exec_first_command(char **av, int fd[2], char **envp)
     char *command;
 
     command = av[2];
-    printf("%s\n", command);
+    //printf("%s\n", command);
     pid_child = fork();
     if (pid_child == -1){
         perror("fork");
