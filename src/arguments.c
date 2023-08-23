@@ -26,7 +26,6 @@ static t_state state_handler(t_state next_state, char new_char)
 
 static int get_number_args(char *com)
 {
-    printf("q pasaaaa");
     t_state next_state;
     t_state prev_state;
     char new_char;
@@ -61,14 +60,6 @@ static void	add_to_result(char **result, char *word)
 	result[pos++] = to_add;
 }
 
-static void print_char_array(char **array) {
-    int i = 0;
-    while (array[i] != NULL) {
-        printf("%s\n", array[i]);
-        i++;
-    }
-}
-
 char ** get_argument_array(char *com)
 {
     t_state next_state;
@@ -79,11 +70,9 @@ char ** get_argument_array(char *com)
     int w_start;
 
     int n_args = get_number_args(com);
-    printf("prove");
     result = protected_calloc(n_args + 1, sizeof(char *));
     next_state = in_space;
     i = 0;
-    printf("prove");
     while(com[i])
     {
         prev_state = next_state;
@@ -97,6 +86,5 @@ char ** get_argument_array(char *com)
     if (next_state != in_space)
         add_to_result(result, ft_substr(com, w_start, i - w_start));
     add_to_result(result, NULL);
-    print_char_array(result);
     return (result);
 }

@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "args_state_machine.C": "cpp",
-        "libft.h": "c"
+        "libft.h": "c",
+        "unistd.h": "c"
     }
 }

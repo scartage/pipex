@@ -11,28 +11,34 @@
 
 void exec_first_command(char **av, int fd[2], char **envp)
 {
+    (void)fd;
     int pid_child;
     int file_fd;
     char *command;
 
+    // guardamos el comando av[1] es archivo de entrada 
     command = av[2];
-    //printf("%s\n", command);
     pid_child = fork();
     if (pid_child == -1){
         perror("fork");
         exit(EXIT_FAILURE);
     }
     if (pid_child == 0){
+        //revisamos los permisos y de ahi sacamos el PID del input
         file_fd = check_read_perm(av[1]);
+        /*en este punto ya esta modificada la entrada y salida del proceso hijo*/
         set_infile_fds(file_fd, fd);
         do_exec_call(command, envp);
     }
 }
 
+/*  fd[0]: es el descriptor de archivo para el extremo de lectura del pipe.
+    fd[1]: es el descriptor de archivo para el extremo de escritura del pipe.*/
+
 int main(int ac, char **av, char **envp)
 {
     int fd[2];
-
+    
     if (ac < 2)
     {
         ft_printf("numero de argumentos incorrecto\n");
@@ -46,5 +52,6 @@ int main(int ac, char **av, char **envp)
     }
 
     exec_first_command(av, fd, envp);
+    //exec_last_command(ac, av, fd, envp);
     wait(NULL);
 }
