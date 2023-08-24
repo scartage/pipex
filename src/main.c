@@ -52,6 +52,6 @@ int main(int ac, char **av, char **envp)
     }
 
     exec_first_command(av, fd, envp);
-    //exec_last_command(ac, av, fd, envp);
+    exec_last_command(ac, av, fd, envp);
     wait(NULL);
 }

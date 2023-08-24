@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <fcntl.h>
+#include <stdlib.h>
 
 int check_read_perm(char *path)
 {
@@ -65,6 +66,11 @@ ya que no se hace uso de este*/
 
 void set_infile_fds(int file_fd, int fd[2])
 {
+    /*int outfile_fd = open("outfile.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    if (outfile_fd == -1){
+        perror("Error al abrir el archivo de salida");
+        exit(EXIT_FAILURE);
+    }*/
     if (dup2(file_fd, STDIN_FILENO) == -1)
         perror("dup2 STDIN_FILENO");
     //redirigimos la salida del proceso al extremo de escritura del pipe
@@ -72,6 +78,8 @@ void set_infile_fds(int file_fd, int fd[2])
     if (dup2(fd[1], STDOUT_FILENO) == -1)
         perror("dup2 STDOUT_FILENO");
     //en este proceso solo escribe en el pipe, no se lee
+     /*close(outfile_fd);*/
+
     if (close(fd[0]) == -1)
         perror("closing read end pipe");
 }

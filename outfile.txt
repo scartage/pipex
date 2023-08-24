@@ -1,1 +1,2 @@
-q pasaaaawc
+[0]wc
+path: /usr/bin//wc

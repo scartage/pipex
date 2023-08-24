@@ -29,3 +29,10 @@ as stdin for cmd1                                 as stdout for cmd2
         cmd1 stdout)                           cmd2 stdin)
 
 
+En Resumen:
+
+    Entrada Estándar (STDIN): De dónde un programa lee datos.
+    Salida Estándar (STDOUT): Dónde un programa escribe datos.
+    Error Estándar (STDERR): Dónde un programa escribe mensajes de error.
+
+Estas "corrientes" pueden ser redirigidas para permitir patrones de programación más flexibles y potentes, como la creación de pipelines en Unix/Linux, donde la salida de un programa se convierte en la entrada de otro programa.
