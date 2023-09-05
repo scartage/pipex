@@ -38,7 +38,6 @@ void  do_exec_call(char *com, char **envp)
     if (arguments == NULL || arguments[0] == NULL)
         perror("command parsing problem");
     command_path = get_path(arguments[0], envp);
-
     printf("path: %s\n", command_path);
     if (execve(command_path, arguments, envp) == -1)
         perror("Problem executing command");
@@ -58,7 +57,7 @@ void exec_last_command(int ac, char **av, int fd[2], char **envp)
         perror("forking 2 command");
     if (child == 0)
     {
-        printf("%s\n", av[ac - 1]);
+        printf("%s\n", av[ac - 1]); //mostramos el commando(?)
         set_outfile_fd(av[ac - 1], fd, is_heredoc(av));
         do_exec_call(com, envp);
     }

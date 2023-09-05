@@ -19,7 +19,7 @@ int check_read_perm(char *path)
     //lo abrimos con intencion de leer, de aqui sacamos el pid
     file_fd = open(path, O_RDONLY);
     if (file_fd == -1)
-        perror("open");
+        perror("error: open in check_read_perm");
     return (file_fd);
 }
 
@@ -66,11 +66,6 @@ ya que no se hace uso de este*/
 
 void set_infile_fds(int file_fd, int fd[2])
 {
-    /*int outfile_fd = open("outfile.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-    if (outfile_fd == -1){
-        perror("Error al abrir el archivo de salida");
-        exit(EXIT_FAILURE);
-    }*/
     if (dup2(file_fd, STDIN_FILENO) == -1)
         perror("dup2 STDIN_FILENO");
     //redirigimos la salida del proceso al extremo de escritura del pipe
@@ -78,8 +73,37 @@ void set_infile_fds(int file_fd, int fd[2])
     if (dup2(fd[1], STDOUT_FILENO) == -1)
         perror("dup2 STDOUT_FILENO");
     //en este proceso solo escribe en el pipe, no se lee
-     /*close(outfile_fd);*/
-
+    //  close(outfile_fd);
     if (close(fd[0]) == -1)
         perror("closing read end pipe");
 }
+
+
+
+/*Funcion para testear el primer comando, de esta forma funciona,
+el input lo obtenemos del fd del archivo de entrada, y lo ponemos
+en el archivo output que creamos dentro de esta mimsa funcion*/
+// void set_infile_fds(int file_fd, int fd[2])
+// {
+//     // Paso 1: Crear/abrir el archivo
+//     int outfile_fd = open("output.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+//     if (outfile_fd == -1) {
+//         perror("Error al abrir el archivo de salida");
+//         exit(EXIT_FAILURE);
+//     }
+
+//     // Redirigir la entrada estándar al archivo de entrada
+//     if (dup2(file_fd, STDIN_FILENO) == -1)
+//         perror("dup2 STDIN_FILENO");
+    
+//     // Paso 2: Redireccionar STDOUT al archivo
+//     if (dup2(outfile_fd, STDOUT_FILENO) == -1)
+//         perror("dup2 STDOUT_FILENO para archivo");
+    
+//     // Paso 3: Cerrar el descriptor del archivo
+//     close(outfile_fd);
+
+//     // Cerrar el extremo de lectura del pipe
+//     if (close(fd[0]) == -1)
+//         perror("closing read end pipe");
+// }

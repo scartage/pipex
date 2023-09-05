@@ -16,7 +16,7 @@ void exec_first_command(char **av, int fd[2], char **envp)
     int file_fd;
     char *command;
 
-    // guardamos el comando av[1] es archivo de entrada 
+    // guardamos el comando, av[1] es archivo de entrada 
     command = av[2];
     pid_child = fork();
     if (pid_child == -1){
@@ -39,9 +39,9 @@ int main(int ac, char **av, char **envp)
 {
     int fd[2];
     
-    if (ac < 2)
+    if (ac < 5)
     {
-        ft_printf("numero de argumentos incorrecto\n");
+        ft_printf("numero de argumentos incorrecto %d\n", ac);
         printf("uso: ./pipex infile cmd1 cmd2 outfile\n");
         return (-1);
     }
@@ -50,7 +50,6 @@ int main(int ac, char **av, char **envp)
         perror("Error en pipe");
         exit(EXIT_FAILURE);
     }
-
     exec_first_command(av, fd, envp);
     exec_last_command(ac, av, fd, envp);
     wait(NULL);
